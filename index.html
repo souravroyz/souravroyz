@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sourav Roy — ECE & Industrial Automation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0A0F1E;
+      --navy2:  #111829;
+      --amber:  #F5A623;
+      --amber2: #FFB94A;
+      --offwhite: #F0EEE9;
+      --steel:  #8A9BB0;
+      --dim:    #3A4558;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    nav.scrolled { background: rgba(10,15,30,0.95); backdrop-filter: blur(8px); }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--steel);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 48px;
+      overflow: hidden;
+    }
+
+    /* Circuit SVG background */
+    .circuit-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 500;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--amber);
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 11vw, 9.5rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--offwhite);
+      max-width: 900px;
+    }
+    .hero h1 span { color: var(--amber); }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 1.05rem;
+      color: var(--steel);
+      max-width: 500px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      margin-top: 44px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: var(--navy);
+      padding: 14px 32px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--amber2); transform: translateY(-2px); }
+
+    .btn-outline {
+      border: 1px solid var(--dim);
+      color: var(--offwhite);
+      padding: 14px 32px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--steel);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--steel);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; width: 40px; }
+      50% { opacity: 1; width: 60px; }
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--navy2);
+      border-top: 1px solid var(--dim);
+      border-bottom: 1px solid var(--dim);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    .stat {
+      flex: 1;
+      max-width: 240px;
+      padding: 36px 40px;
+      text-align: center;
+      border-right: 1px solid var(--dim);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--amber);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+    .stat-label {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel);
+      font-weight: 500;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--amber);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--offwhite);
+      margin-bottom: 20px;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 56px;
+    }
+    .about-text p {
+      color: var(--steel);
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-size: 0.97rem;
+    }
+    .about-text p strong { color: var(--offwhite); font-weight: 500; }
+
+    .about-skills { display: flex; flex-direction: column; gap: 16px; }
+    .skill-row { display: flex; flex-direction: column; gap: 7px; }
+    .skill-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      font-weight: 500;
+    }
+    .skill-label span { color: var(--amber); }
+    .skill-bar {
+      height: 2px;
+      background: var(--dim);
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: var(--amber);
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── CONTENT PILLARS ── */
+    .pillars-section { background: var(--navy2); }
+    .pillars-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 48px;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 56px;
+      background: var(--dim);
+    }
+    .pillar {
+      background: var(--navy2);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    .pillar:hover { background: #151e33; }
+    .pillar::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--amber);
+      transition: width 0.3s;
+    }
+    .pillar:hover::after { width: 100%; }
+    .pillar-icon {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .pillar-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      color: var(--offwhite);
+      margin-bottom: 12px;
+    }
+    .pillar-desc {
+      font-size: 0.87rem;
+      color: var(--steel);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .pillar-topics {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid rgba(245,166,35,0.3);
+      padding: 4px 10px;
+      font-weight: 500;
+    }
+
+    /* ── YOUTUBE ── */
+    .yt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .yt-card {
+      background: var(--navy2);
+      border: 1px solid var(--dim);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .yt-card:hover { border-color: var(--amber); transform: translateY(-4px); }
+    .yt-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .yt-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a2540 0%, #0d1525 100%);
+    }
+    .yt-play {
+      position: relative;
+      z-index: 1;
+      width: 48px;
+      height: 48px;
+      background: var(--amber);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .yt-play::after {
+      content: '';
+      border-style: solid;
+      border-width: 8px 0 8px 14px;
+      border-color: transparent transparent transparent var(--navy);
+      margin-left: 3px;
+    }
+    .yt-info { padding: 20px; }
+    .yt-category {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .yt-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--offwhite);
+      line-height: 1.4;
+    }
+    .yt-meta {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      color: var(--steel);
+    }
+
+    /* ── RESOURCES ── */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .resource-card {
+      border: 1px solid var(--dim);
+      padding: 32px 36px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .resource-card:hover { border-color: var(--amber); }
+    .resource-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--dim);
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+    .resource-card:hover .resource-num { color: var(--amber); }
+    .resource-body h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--offwhite);
+      margin-bottom: 8px;
+    }
+    .resource-body p {
+      font-size: 0.85rem;
+      color: var(--steel);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .resource-link::after { content: '→'; }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section {
+      background: var(--amber);
+      padding: 80px 48px;
+    }
+    .newsletter-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .newsletter-inner h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--navy);
+      letter-spacing: 0.03em;
+      margin-bottom: 14px;
+    }
+    .newsletter-inner p {
+      color: rgba(10,15,30,0.65);
+      font-size: 0.95rem;
+      font-weight: 400;
+      margin-bottom: 32px;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      background: rgba(10,15,30,0.12);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .newsletter-form input::placeholder { color: rgba(10,15,30,0.4); }
+    .newsletter-form button {
+      padding: 14px 28px;
+      background: var(--navy);
+      color: var(--amber);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .newsletter-form button:hover { background: var(--navy2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060a13;
+      padding: 56px 48px 36px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--dim);
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-brand h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+    }
+    .footer-brand p {
+      font-size: 0.82rem;
+      color: var(--steel);
+      margin-top: 8px;
+      max-width: 260px;
+      line-height: 1.6;
+    }
+    .footer-links h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--offwhite);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--steel);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--amber); }
+    .footer-socials { display: flex; gap: 12px; margin-top: 16px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--dim);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      font-size: 0.75rem;
+      color: var(--steel);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .footer-bottom {
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--dim);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-bottom a { color: var(--amber); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 20px; }
+      .hero { padding: 0 24px; }
+      section { padding: 72px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .pillars-inner { padding: 72px 24px; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .yt-grid { grid-template-columns: 1fr; }
+      .resources-grid { grid-template-columns: 1fr; }
+      .newsletter-section { padding: 60px 24px; }
+      .newsletter-form { flex-direction: column; }
+      .footer { padding: 48px 24px 28px; }
+      .footer-top { flex-direction: column; gap: 36px; }
+      .stats-bar { flex-wrap: wrap; }
+      .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--dim); }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: clamp(3.5rem, 15vw, 5rem); }
+      .nav-links { display: none; }
+      .hero-scroll { left: 24px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Sourav Roy</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#content">Content</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <!-- Circuit SVG background -->
+    <svg class="circuit-bg" viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 200 L200 200 L200 100 L500 100 L500 300 L700 300" stroke="#F5A623" stroke-width="1.5"/>
+      <path d="M700 300 L900 300 L900 150 L1100 150 L1100 400 L1400 400" stroke="#F5A623" stroke-width="1.5"/>
+      <path d="M300 400 L300 600 L600 600 L600 500 L800 500" stroke="#F5A623" stroke-width="1.5"/>
+      <path d="M800 500 L1000 500 L1000 650 L1300 650" stroke="#F5A623" stroke-width="1.5"/>
+      <path d="M100 700 L400 700 L400 550 L650 550" stroke="#F5A623" stroke-width="1"/>
+      <circle cx="200" cy="200" r="5" fill="#F5A623"/>
+      <circle cx="500" cy="100" r="5" fill="#F5A623"/>
+      <circle cx="700" cy="300" r="8" fill="none" stroke="#F5A623" stroke-width="1.5"/>
+      <circle cx="900" cy="300" r="5" fill="#F5A623"/>
+      <circle cx="1100" cy="150" r="5" fill="#F5A623"/>
+      <circle cx="300" cy="600" r="5" fill="#F5A623"/>
+      <circle cx="600" cy="500" r="8" fill="none" stroke="#F5A623" stroke-width="1.5"/>
+      <circle cx="1000" cy="500" r="5" fill="#F5A623"/>
+      <rect x="490" y="90" width="20" height="20" stroke="#F5A623" stroke-width="1.5"/>
+      <rect x="890" y="290" width="20" height="20" stroke="#F5A623" stroke-width="1.5"/>
+      <rect x="590" y="490" width="20" height="20" stroke="#F5A623" stroke-width="1.5"/>
+    </svg>
+
+    <div class="hero-eyebrow">ECE Graduate · Industrial Automation Engineer · Content Creator</div>
+    <h1>SOURAV<br/><span>ROY</span></h1>
+    <p class="hero-sub">Helping ECE engineers land jobs in core electronics and industrial automation — real guidance from someone already inside the industry.</p>
+    <div class="hero-cta">
+      <a href="#content" class="btn-primary">Watch Videos</a>
+      <a href="#resources" class="btn-outline">Free Resources</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat fade-up">
+      <div class="stat-number">ECE</div>
+      <div class="stat-label">B.Tech Graduate</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-number">SCADA</div>
+      <div class="stat-label">Industrial Automation</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Core Field Focused</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-number">FREE</div>
+      <div class="stat-label">Career Guidance</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-eyebrow">About Me</div>
+    <h2 class="section-title">From Campus<br/>To Core Industry</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm <strong>Sourav Roy</strong> — a B.Tech ECE graduate working as an <strong>Industrial Automation Engineer</strong>. I know exactly how hard it is to break into core electronics and electrical roles after graduation, because I've lived it.</p>
+        <p>While most career channels push IT/software as the only path for ECE students, I'm here to show you the <strong>real opportunities</strong> in automation, control systems, SCADA, and core electronics — roles that actually use what you studied.</p>
+        <p>Through <strong>souravroy.co</strong> and my YouTube channel, I share roadmaps, resources, certifications, and industry realities to help you land the job that matches your degree.</p>
+        <a href="#content" class="btn-primary" style="display:inline-block; margin-top: 8px;">Watch My Videos</a>
+      </div>
+      <div class="about-skills">
+        <div class="section-eyebrow" style="margin-bottom: 28px;">My Domain Expertise</div>
+        <div class="skill-row">
+          <div class="skill-label">PLC & SCADA Systems <span>Advanced</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="88"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Industrial Automation <span>Advanced</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="90"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Control Systems (ECE) <span>Strong</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="82"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Career Guidance & Mentoring <span>Core Focus</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="95"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Industrial Protocols (Modbus, OPC-UA) <span>Working</span></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="75"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT PILLARS -->
+  <div class="pillars-section" id="content">
+    <div class="pillars-inner">
+      <div class="section-eyebrow">Content Areas</div>
+      <h2 class="section-title">What I Cover</h2>
+      <div class="pillars-grid">
+        <div class="pillar fade-up">
+          <span class="pillar-icon">🎯</span>
+          <div class="pillar-title">Career Guidance</div>
+          <p class="pillar-desc">Real, actionable advice on how to get into core ECE and electrical roles after B.Tech — without switching to IT.</p>
+          <div class="pillar-topics">
+            <span class="tag">Resume Tips</span>
+            <span class="tag">Interview Prep</span>
+            <span class="tag">Job Search</span>
+            <span class="tag">Salary Guide</span>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <span class="pillar-icon">⚙️</span>
+          <div class="pillar-title">Technical Knowledge</div>
+          <p class="pillar-desc">Breaking down PLC programming, SCADA systems, HMI design, and industrial automation concepts in plain language.</p>
+          <div class="pillar-topics">
+            <span class="tag">PLC Basics</span>
+            <span class="tag">SCADA</span>
+            <span class="tag">HMI</span>
+            <span class="tag">Automation</span>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <span class="pillar-icon">📜</span>
+          <div class="pillar-title">Courses & Certifications</div>
+          <p class="pillar-desc">Honest reviews of certifications like Ignition, Rockwell, GICSP — what's worth your time and money as an ECE fresher.</p>
+          <div class="pillar-topics">
+            <span class="tag">Ignition</span>
+            <span class="tag">Rockwell</span>
+            <span class="tag">GICSP</span>
+            <span class="tag">Free Resources</span>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <span class="pillar-icon">🏭</span>
+          <div class="pillar-title">Industry Insights</div>
+          <p class="pillar-desc">Day-in-the-life content, industry sector deep dives, salary transparency, and what companies actually look for.</p>
+          <div class="pillar-topics">
+            <span class="tag">Oil & Gas</span>
+            <span class="tag">Power Utilities</span>
+            <span class="tag">Manufacturing</span>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <span class="pillar-icon">🗺️</span>
+          <div class="pillar-title">Learning Roadmaps</div>
+          <p class="pillar-desc">Step-by-step skill roadmaps designed specifically for ECE graduates entering automation, SCADA, or control systems.</p>
+          <div class="pillar-topics">
+            <span class="tag">Fresher Roadmap</span>
+            <span class="tag">Skill Building</span>
+            <span class="tag">Tools List</span>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <span class="pillar-icon">🔐</span>
+          <div class="pillar-title">ICS/SCADA Security</div>
+          <p class="pillar-desc">Introduction to cybersecurity in industrial control systems — one of the highest-paying specializations in the field.</p>
+          <div class="pillar-topics">
+            <span class="tag">ICS Security</span>
+            <span class="tag">ISA/IEC 62443</span>
+            <span class="tag">High Pay</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LATEST VIDEOS -->
+  <section id="videos">
+    <div class="section-eyebrow">YouTube</div>
+    <h2 class="section-title">Latest Videos</h2>
+    <div class="yt-grid">
+      <div class="yt-card fade-up">
+        <div class="yt-thumb"><div class="yt-play"></div></div>
+        <div class="yt-info">
+          <div class="yt-category">Career Guidance</div>
+          <div class="yt-title">How to Get a Core ECE Job After B.Tech — Complete Roadmap</div>
+          <div class="yt-meta">Subscribe on YouTube for more →</div>
+        </div>
+      </div>
+      <div class="yt-card fade-up">
+        <div class="yt-thumb"><div class="yt-play"></div></div>
+        <div class="yt-info">
+          <div class="yt-category">Technical</div>
+          <div class="yt-title">What is SCADA? Industrial Automation Explained for Beginners</div>
+          <div class="yt-meta">Subscribe on YouTube for more →</div>
+        </div>
+      </div>
+      <div class="yt-card fade-up">
+        <div class="yt-thumb"><div class="yt-play"></div></div>
+        <div class="yt-info">
+          <div class="yt-category">Certifications</div>
+          <div class="yt-title">Top 5 Certifications for ECE Freshers in Automation (2024)</div>
+          <div class="yt-meta">Subscribe on YouTube for more →</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top: 44px;">
+      <a href="#" class="btn-outline">View All Videos on YouTube</a>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources" style="background: var(--navy2); max-width: 100%; padding: 100px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 48px;">
+      <div class="section-eyebrow">Free Resources</div>
+      <h2 class="section-title">Tools to Help You<br/>Get Hired Faster</h2>
+      <div class="resources-grid">
+        <div class="resource-card fade-up">
+          <div class="resource-num">01</div>
+          <div class="resource-body">
+            <h3>ECE Core Job Roadmap</h3>
+            <p>A step-by-step guide from graduation to your first core ECE/automation role. Skills, tools, and timelines included.</p>
+            <a href="#" class="resource-link">Download Free</a>
+          </div>
+        </div>
+        <div class="resource-card fade-up">
+          <div class="resource-num">02</div>
+          <div class="resource-body">
+            <h3>SCADA & PLC Learning Path</h3>
+            <p>Curated free resources, platforms, and practice tools to build SCADA and PLC skills from scratch.</p>
+            <a href="#" class="resource-link">Get the List</a>
+          </div>
+        </div>
+        <div class="resource-card fade-up">
+          <div class="resource-num">03</div>
+          <div class="resource-body">
+            <h3>Certification Guide for ECE Freshers</h3>
+            <p>Which certifications actually matter, which are overpriced, and how to get started with Ignition for free.</p>
+            <a href="#" class="resource-link">Read the Guide</a>
+          </div>
+        </div>
+        <div class="resource-card fade-up">
+          <div class="resource-num">04</div>
+          <div class="resource-body">
+            <h3>Resume Template (Core ECE)</h3>
+            <p>A resume format tailored for automation and electronics roles — not the generic IT template everyone else uses.</p>
+            <a href="#" class="resource-link">Download Template</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter-section" id="contact">
+    <div class="newsletter-inner">
+      <h2>GET WEEKLY ECE CAREER TIPS</h2>
+      <p>Join hundreds of ECE students getting real job market insights, resource drops, and video updates every week.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h3>SOURAV ROY</h3>
+          <p>ECE Graduate · Industrial Automation Engineer · Helping core ECE students build real careers.</p>
+          <div class="footer-socials" style="margin-top:20px;">
+            <a href="#" class="social-btn">YT</a>
+            <a href="#" class="social-btn">LI</a>
+            <a href="#" class="social-btn">IG</a>
+            <a href="#" class="social-btn">TG</a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="#">Career Guidance</a></li>
+            <li><a href="#">Technical Videos</a></li>
+            <li><a href="#">Certifications</a></li>
+            <li><a href="#">Industry Insights</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">ECE Roadmap</a></li>
+            <li><a href="#">SCADA Learning Path</a></li>
+            <li><a href="#">Resume Template</a></li>
+            <li><a href="#">Cert Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">YouTube Channel</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Telegram Community</a></li>
+            <li><a href="mailto:hello@souravroy.co">hello@souravroy.co</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Sourav Roy · souravroy.co</span>
+        <span>Built for ECE engineers, by an ECE engineer</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Skill bars
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.dataset.w + '%';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    const skillSection = document.querySelector('.about-skills');
+    if (skillSection) skillObserver.observe(skillSection);
+  </script>
+</body>
+</html>
+
